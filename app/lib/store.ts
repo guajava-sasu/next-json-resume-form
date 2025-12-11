@@ -391,3 +391,5 @@ export const useResumeStore = create<ResumeStore>()(
     }
   )
 );
+
+export default useResumeStore;

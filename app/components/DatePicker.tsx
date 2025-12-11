@@ -1,28 +1,25 @@
-// src/components/DatePicker.tsx
-"use client";
+'use client';
 
 interface DatePickerProps {
-  name: string;
   label: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (value: string) => void;
   required?: boolean;
 }
 
-export default function DatePicker({ name, label, value, onChange, required }: DatePickerProps) {
+export default function DatePicker({ label, value, onChange, required = false }: DatePickerProps) {
   return (
     <div className="flex flex-col">
-      <label htmlFor={name} className="mb-1 text-sm font-medium">
+      <label className="text-sm font-medium text-gray-700 mb-1">
         {label}
+        {required && <span className="text-red-500 ml-1">*</span>}
       </label>
       <input
-        id={name}
-        name={name}
         type="date"
         value={value}
-        onChange={onChange}
+        onChange={(e) => onChange(e.target.value)}
         required={required}
-        className="p-2 border rounded"
+        className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
     </div>
   );
