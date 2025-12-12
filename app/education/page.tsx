@@ -14,7 +14,7 @@ export default function EducationPage() {
   const [courses, setCourses] = useState<string[]>([]);
 
 
-    const convertData = (data: Record<string, string>) => {
+  const convertData = (data: Record<string, string>) => {
     return {
       institution: data.institution || "",
       area: data.area || "",
@@ -60,7 +60,7 @@ export default function EducationPage() {
         }}
         onDelete={removeEducation}
         renderItem={(item, index) => (
-          <div>
+          <div key={index}>
             <h3 className="font-semibold">{item.institution}</h3>
             <p>{item.area} ({item.studyType})</p>
           </div>
@@ -71,7 +71,7 @@ export default function EducationPage() {
           <FormSection
             fields={fields}
             initialData={
-               {
+              {
                 institution: education[editingIndex]?.institution || "",
                 area: education[editingIndex]?.area || "",
                 studyType: education[editingIndex]?.studyType || "",
@@ -79,7 +79,7 @@ export default function EducationPage() {
                 endDate: education[editingIndex]?.endDate || "",
                 score: education[editingIndex]?.score || "",
 
-               }}
+              }}
             onSubmit={handleSubmit}
             onCancel={() => {
               setEditingIndex(null);

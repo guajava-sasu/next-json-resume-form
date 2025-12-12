@@ -5,8 +5,6 @@ import { useState } from "react";
 import { useCVStore } from "../lib/store";
 import EditableList from "../components/EditableList";
 import TagInput from "../components/TagInput";
-import FormSection from "../components/FormSection";
-import { Field, Skill } from "../lib/definitions";
 
 export default function SkillsPage() {
   const { skills, addSkill, updateSkill, removeSkill } = useCVStore();
@@ -46,7 +44,7 @@ export default function SkillsPage() {
         }}
         onDelete={removeSkill}
         renderItem={(item, index) => (
-          <div>
+          <div key={index}> 
             <h3 className="font-semibold">{item.name}</h3>
             <p>Niveau: {item.level}</p>
             <div className="flex flex-wrap gap-2 mt-2">

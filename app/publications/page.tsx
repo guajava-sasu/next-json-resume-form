@@ -46,8 +46,9 @@ export default function PublicationsPage() {
         onEdit={(index) => setEditingIndex(index)}
         onDelete={removePublication}
         renderItem={(item, index) => (
-          <div>
-            <h3 className="font-semibold">{item.name}</h3>
+
+  <div key={index}> 
+                         <h3 className="font-semibold">{item.name}</h3>
             <p className="text-sm text-gray-600">{item.publisher} - {item.releaseDate}</p>
             {item.summary && <p className="text-sm mt-2">{item.summary}</p>}
             {item.url && <a href={item.url} className="text-sm text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Lire</a>}

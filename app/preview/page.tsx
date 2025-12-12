@@ -2,7 +2,6 @@
 "use client";
 
 import { useCVStore } from "../lib/store"; 
-import { Resume } from "../lib/definitions";
 
 export default function PreviewPage() {
   const { resume } = useCVStore();
@@ -20,11 +19,13 @@ export default function PreviewPage() {
           <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-10 text-white">
             <div className="flex flex-col items-center text-center space-y-4">
               {resume.basics.image ? (
-                <img
+              <div> 
+                 {/* <img
                   src={resume.basics.image}
                   alt="Photo de profil"
                   className="w-32 h-32 rounded-full border-4 border-white shadow-xl object-cover"
-                />
+                /> */}
+                </div>
               ) : (
                 <div className="w-32 h-32 rounded-full border-4 border-white shadow-xl bg-white/20 flex items-center justify-center">
                   <svg className="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

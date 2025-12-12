@@ -57,7 +57,7 @@ export default function ProjectsPage() {
         }}
         onDelete={removeProject}
         renderItem={(item, index) => (
-          <div>
+          <div key={index}>
             <h3 className="font-semibold">{item.name}</h3>
             <p>{item.description}</p>
           </div>

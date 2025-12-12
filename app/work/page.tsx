@@ -32,10 +32,7 @@ export default function WorkPage() {
   ];
 
   const handleSubmit = (data: Record<string, string>) => {
-    const workData = {
-      ...data,
-      highlights: data.highlights?.split(",").map((h) => h.trim()) || [],
-    };
+  
     if (editingIndex !== null) {
       updateWork(editingIndex, convertWorkData(data));
     } else {
@@ -53,7 +50,7 @@ export default function WorkPage() {
         onEdit={(index) => setEditingIndex(index)}
         onDelete={removeWork}
         renderItem={(item, index) => (
-          <div>
+           <div key={index}> 
             <h3 className="font-semibold">{item.name}</h3>
             <p>{item.position}</p>
             <p>

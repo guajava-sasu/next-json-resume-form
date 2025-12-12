@@ -74,7 +74,7 @@ export function loadJSON(file: File): Promise<object> {
         const json = JSON.parse(e.target?.result as string);
         resolve(json);
       } catch (error) {
-        reject(new Error('Invalid JSON file'));
+        reject(new Error('Invalid JSON file: ' + error));
       }
     };
     reader.onerror = () => reject(new Error('Failed to read file'));

@@ -50,7 +50,7 @@ export default function VolunteerPage() {
         onEdit={(index) => setEditingIndex(index)}
         onDelete={removeVolunteer}
         renderItem={(item, index) => (
-          <div>
+          <div key={index}>
             <h3 className="font-semibold">{item.organization}</h3>
             <p>{item.position}</p>
           </div>

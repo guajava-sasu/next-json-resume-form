@@ -40,9 +40,9 @@ export default function ReferencesPage() {
         onEdit={(index) => setEditingIndex(index)}
         onDelete={removeReference}
         renderItem={(item, index) => (
-          <div>
+          <div key={index}>
             <h3 className="font-semibold">{item.name}</h3>
-            <p className="text-sm mt-2 italic">"{item.reference}"</p>
+            <p className="text-sm mt-2 italic">{item.reference}</p>
           </div>
         )}
       />

@@ -44,8 +44,9 @@ export default function CertificatesPage() {
         onEdit={(index) => setEditingIndex(index)}
         onDelete={removeCertificate}
         renderItem={(item, index) => (
-          <div>
-            <h3 className="font-semibold">{item.name}</h3>
+
+  <div key={index}> 
+                         <h3 className="font-semibold">{item.name}</h3>
             <p className="text-sm text-gray-600">{item.issuer} - {item.date}</p>
             {item.url && <a href={item.url} className="text-sm text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Voir le certificat</a>}
           </div>

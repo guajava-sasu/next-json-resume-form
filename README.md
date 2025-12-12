@@ -1,36 +1,154 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📝 JSON Resume Form - SaaS de Création de CV
 
-## Getting Started
+Application web moderne pour créer et gérer des CV professionnels au format [JSON Resume](https://jsonresume.org/), le standard ouvert reconnu par la communauté.
 
-First, run the development server:
+## 🎯 Fonctionnalités
+
+### ✅ Disponibles actuellement
+
+- **Interface intuitive** : Formulaires modernes et responsive pour toutes les sections du CV
+- **Format standardisé** : Respect complet du schéma JSON Resume
+- **Gestion complète** : 12 sections incluant profil, expériences, formations, compétences, etc.
+- **Aperçu en temps réel** : Visualisez votre CV au fur et à mesure de la création
+- **Export JSON** : Téléchargez votre CV au format JSON standard
+- **Persistance locale** : Vos données sont sauvegardées automatiquement dans le navigateur
+
+### 🚀 À venir
+
+- **Agent IA** : Conversion automatique de CV Word (.docx) et PDF vers JSON Resume
+- **Templates multiples** : Différents styles de rendu pour votre CV
+- **Export PDF** : Génération de PDF professionnels
+- **Partage** : URLs publiques pour partager votre CV
+
+## 🛠️ Stack Technique
+
+- **Framework** : [Next.js 16](https://nextjs.org) (App Router)
+- **UI** : React 19 + [Tailwind CSS 4](https://tailwindcss.com)
+- **State Management** : [Zustand](https://zustand-demo.pmnd.rs/)
+- **Langage** : TypeScript 5
+- **Styling** : Design system avec gradients modernes
+
+## 📦 Installation
 
 ```bash
+# Cloner le projet
+git clone https://github.com/votre-username/next-json-resume-form.git
+cd next-json-resume-form
+
+# Installer les dépendances
+npm install
+
+# Lancer le serveur de développement
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ouvrez [http://localhost:3001](http://localhost:3001) dans votre navigateur.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🗂️ Structure du Projet
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+app/
+├── page.tsx                 # Page d'accueil
+├── layout.tsx              # Layout principal avec navigation
+├── basics/                 # Section profil (nom, email, localisation)
+├── work/                   # Expériences professionnelles
+├── education/              # Formations et diplômes
+├── volunteer/              # Bénévolat
+├── skills/                 # Compétences techniques
+├── projects/               # Projets personnels
+├── awards/                 # Prix et distinctions
+├── certificates/           # Certifications
+├── publications/           # Publications
+├── languages/              # Langues parlées
+├── interests/              # Centres d'intérêt
+├── references/             # Références professionnelles
+├── preview/                # Aperçu du CV complet
+├── export/                 # Export JSON
+├── components/             # Composants réutilisables
+│   ├── FormSection.tsx     # Formulaire avec validation
+│   ├── EditableList.tsx    # Liste CRUD
+│   ├── TagInput.tsx        # Input pour tags/mots-clés
+│   ├── DatePicker.tsx      # Sélecteur de date
+│   ├── ImageUploader.tsx   # Upload d'image
+│   ├── PreviewCard.tsx     # Carte de prévisualisation
+│   └── Navbar.tsx          # Navigation principale
+└── lib/
+    ├── definitions.ts      # Types TypeScript pour JSON Resume
+    ├── store.ts            # Store Zustand centralisé
+    └── utils.ts            # Fonctions utilitaires
+```
 
-## Learn More
+## 🎨 Utilisation
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Créer votre profil
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Commencez par la section **Basics** pour renseigner vos informations personnelles (nom, email, téléphone, localisation, réseaux sociaux).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 2. Ajouter vos expériences
 
-## Deploy on Vercel
+Remplissez les différentes sections selon vos besoins :
+- **Work** : Expériences professionnelles avec dates et descriptions
+- **Education** : Diplômes et formations avec cours suivis
+- **Skills** : Compétences avec niveau de maîtrise
+- **Projects** : Projets personnels ou open-source
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 3. Compléter votre CV
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Ajoutez les sections optionnelles pour un CV complet :
+- Volunteer, Awards, Certificates, Publications
+- Languages (avec niveau de compétence)
+- Interests, References
+
+### 4. Prévisualiser et exporter
+
+- **Preview** : Visualisez votre CV dans un format élégant
+- **Export** : Téléchargez votre CV au format JSON
+
+## 🔧 Scripts Disponibles
+
+```bash
+# Développement (port 3001)
+npm run dev
+
+# Build de production
+npm run build
+
+# Démarrer en production
+npm start
+
+# Linter ESLint
+npm run lint
+
+# Correction automatique du linter
+npm run lint:fix
+```
+
+## 📄 Format JSON Resume
+
+Le format JSON Resume est un standard ouvert qui permet de :
+- ✅ Structurer votre CV de manière universelle
+- ✅ L'utiliser avec de nombreux outils et générateurs de thèmes
+- ✅ Le versionner facilement avec Git
+- ✅ L'intégrer dans des applications automatisées
+
+Documentation complète : [jsonresume.org/schema](https://jsonresume.org/schema/)
+
+## 🤝 Contribution
+
+Les contributions sont les bienvenues ! N'hésitez pas à :
+1. Fork le projet
+2. Créer une branche (`git checkout -b feature/amelioration`)
+3. Commit vos changements (`git commit -m 'Ajout fonctionnalité'`)
+4. Push vers la branche (`git push origin feature/amelioration`)
+5. Ouvrir une Pull Request
+
+## 📝 License
+
+Ce projet est sous licence MIT.
+
+## 🔗 Ressources
+
+- [Documentation Next.js](https://nextjs.org/docs)
+- [JSON Resume Schema](https://jsonresume.org/schema/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Zustand Documentation](https://docs.pmnd.rs/zustand/getting-started/introduction)

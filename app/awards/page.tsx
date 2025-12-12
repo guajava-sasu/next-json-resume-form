@@ -44,8 +44,9 @@ export default function AwardsPage() {
         onEdit={(index) => setEditingIndex(index)}
         onDelete={removeAward}
         renderItem={(item, index) => (
-          <div>
-            <h3 className="font-semibold">{item.title}</h3>
+
+  <div key={index}> 
+                         <h3 className="font-semibold">{item.title}</h3>
             <p className="text-sm text-gray-600">{item.awarder} - {item.date}</p>
             {item.summary && <p className="text-sm mt-2">{item.summary}</p>}
           </div>

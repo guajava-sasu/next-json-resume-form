@@ -73,11 +73,13 @@ export default function BasicsPage() {
             <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-8 text-white">
               <div className="flex items-center space-x-6">
                 {basics.image ? (
-                  <img
-                    src={basics.image}
-                    alt="Photo de profil"
-                    className="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover"
-                  />
+                    <div> 
+                  {/* // <img
+                  //   src={basics.image}
+                  //   alt="Photo de profil"
+                  //   className="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover"
+                  // /> */}
+                  </div>
                 ) : (
                   <div className="w-24 h-24 rounded-full border-4 border-white shadow-lg bg-white/20 flex items-center justify-center">
                     <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
