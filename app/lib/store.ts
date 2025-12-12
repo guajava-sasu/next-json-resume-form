@@ -86,7 +86,7 @@ const initialResume: Resume = {
   projects: [],
 };
 
-export const useResumeStore = create<ResumeStore>()(
+export const useCVStore = create<ResumeStore>()(
   persist(
     (set) => ({
       resume: initialResume,
