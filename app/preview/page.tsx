@@ -1,17 +1,18 @@
 // src/app/preview/page.tsx
 "use client";
 
-import { useResumeStore } from "../lib/store";
+import { useCVStore } from "../lib/store"; 
+import { Resume } from "../lib/definitions";
 
 export default function PreviewPage() {
-  const { resume } = useResumeStore();
+  const { resume } = useCVStore();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-6">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-800 mb-2">Aperçu du CV</h1>
-          <p className="text-gray-600">Visualisez votre CV avant de l'exporter</p>
+          <p className="text-gray-600">Visualisez votre CV avant d&apos;exporter</p>
         </div>
 
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">

@@ -2,15 +2,27 @@
 "use client";
 
 import { useState } from "react";
-import { useResumeStore } from "../lib/store";
+import { useCVStore } from "../lib/store";
 import FormSection from "../components/FormSection";
 import EditableList from "../components/EditableList";
+import { Field } from "../lib/definitions";
 
 export default function WorkPage() {
-  const { work, addWork, updateWork, removeWork } = useResumeStore();
+  const { work, addWork, updateWork, removeWork } = useCVStore();
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
-  const fields = [
+  const convertWorkData = (data: Record<string, string>) => {
+    return {
+      name: data.name || "",
+      position: data.position || "",
+      url: data.url || "",
+      startDate: data.startDate || "",
+      endDate: data.endDate || "",
+      summary: data.summary || "",
+      highlights: data.highlights ? data.highlights.split(",").map((h) => h.trim()) : [],
+    };
+  }
+  const fields: Field[] = [
     { name: "name", label: "Nom de l'entreprise", type: "text", required: true },
     { name: "position", label: "Poste", type: "text", required: true },
     { name: "url", label: "Site web", type: "url" },
@@ -25,9 +37,9 @@ export default function WorkPage() {
       highlights: data.highlights?.split(",").map((h) => h.trim()) || [],
     };
     if (editingIndex !== null) {
-      updateWork(editingIndex, workData as any);
+      updateWork(editingIndex, convertWorkData(data));
     } else {
-      addWork(workData as any);
+      addWork(convertWorkData(data));
     }
     setEditingIndex(null);
   };
@@ -53,7 +65,15 @@ export default function WorkPage() {
       {editingIndex !== null && (
         <FormSection
           fields={fields}
-          initialData={work[editingIndex] || {}}
+          initialData={{
+            name: work[editingIndex]?.name || "",
+            position: work[editingIndex]?.position || "",
+            url: work[editingIndex]?.url || "",
+            startDate: work[editingIndex]?.startDate || "",
+            endDate: work[editingIndex]?.endDate || "",
+            summary: work[editingIndex]?.summary || "",
+            highlights: work[editingIndex]?.highlights.join(", ") || "",
+          }}
           onSubmit={handleSubmit}
           onCancel={() => setEditingIndex(null)}
         />

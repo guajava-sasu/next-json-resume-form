@@ -6,6 +6,16 @@ export type Location = {
     region: string;
 }
 
+
+export type Field = {
+  name: string;
+  label: string;
+  type: "text" | "date" | "textarea" | "email" | "tel" | "url";
+  required?: boolean;
+  placeholder?: string;
+}
+
+
 export type Profile = {
     network: string;
     username: string;

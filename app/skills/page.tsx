@@ -2,12 +2,14 @@
 "use client";
 
 import { useState } from "react";
-import { useResumeStore } from "@/lib/store";
-import EditableList from "@/components/EditableList";
-import TagInput from "@/components/TagInput";
+import { useCVStore } from "../lib/store";
+import EditableList from "../components/EditableList";
+import TagInput from "../components/TagInput";
+import FormSection from "../components/FormSection";
+import { Field, Skill } from "../lib/definitions";
 
 export default function SkillsPage() {
-  const { skills, addSkill, updateSkill, removeSkill } = useResumeStore();
+  const { skills, addSkill, updateSkill, removeSkill } = useCVStore();
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [keywords, setKeywords] = useState<string[]>([]);
 
@@ -96,10 +98,10 @@ export default function SkillsPage() {
             </select>
           </div>
           <TagInput
-            name="keywords"
             label="Mots-clés"
-            value={keywords}
+            tags={keywords}
             onChange={setKeywords}
+            placeholder="Ajoutez des mots-clés..."
           />
           <button
             onClick={handleSubmit}

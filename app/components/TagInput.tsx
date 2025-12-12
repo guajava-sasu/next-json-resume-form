@@ -4,33 +4,33 @@
 import { useState } from "react";
 
 interface TagInputProps {
-  name: string;
   label: string;
-  value: string[];
+  tags: string[];
   onChange: (tags: string[]) => void;
+  placeholder?: string;
 }
 
-export default function TagInput({ name, label, value, onChange }: TagInputProps) {
+export default function TagInput({ label, tags, onChange, placeholder = "Ajouter un tag" }: TagInputProps) {
   const [inputValue, setInputValue] = useState("");
 
   const handleAddTag = () => {
-    if (inputValue.trim() && !value.includes(inputValue.trim())) {
-      onChange([...value, inputValue.trim()]);
+    if (inputValue.trim() && !tags.includes(inputValue.trim())) {
+      onChange([...tags, inputValue.trim()]);
       setInputValue("");
     }
   };
 
   const handleRemoveTag = (tag: string) => {
-    onChange(value.filter((t) => t !== tag));
+    onChange(tags.filter((t) => t !== tag));
   };
 
   return (
     <div className="flex flex-col">
-      <label htmlFor={name} className="mb-1 text-sm font-medium">
+      <label className="mb-1 text-sm font-medium">
         {label}
       </label>
       <div className="flex flex-wrap gap-2 mb-2">
-        {value.map((tag) => (
+        {tags.map((tag) => (
           <div key={tag} className="flex items-center px-3 py-1 bg-gray-200 rounded-full">
             <span>{tag}</span>
             <button
@@ -45,12 +45,11 @@ export default function TagInput({ name, label, value, onChange }: TagInputProps
       </div>
       <div className="flex">
         <input
-          id={name}
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleAddTag()}
-          placeholder="Ajouter un tag"
+          placeholder={placeholder}
           className="flex-1 p-2 border rounded-l"
         />
         <button

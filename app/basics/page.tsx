@@ -3,42 +3,13 @@
 import { useState } from "react";
 import FormSection from "../components/FormSection";
 import ImageUploader from "../components/ImageUploader";
-import { useCVStore } from "../lib/store"; // À créer (voir plus bas)
-//import { Basics } from "../lib/definitions";
+import { useCVStore } from "../lib/store"; 
+import { Location, Field} from "../lib/definitions";
 
-interface Location {
-  address: string;
-  postalCode: string;
-  city: string;
-  countryCode: string;
-  region: string;
-}
-
-interface Basics {
-  name: string;
-  label: string;
-  image: string;
-  email: string;
-  phone: string;
-  url: string;
-  summary: string;
-  location: Location;
-  // profiles: Profile[];
-}
-
-// Type for form data (only string fields)
-type BasicsFormData = Omit<Basics, 'location'>;
+// // Type for form data (only string fields)
+// type BasicsFormData = Omit<Basics, 'location'>;
 
 // Then use BasicsFormData where you need Record<string, string>
-interface Field {
-  name: string;
-  label: string;
-  type: "text" | "date" | "textarea" | "email" | "tel" | "url";
-  required?: boolean;
-  placeholder?: string;
-}
-
-
 export default function BasicsPage() {
   // Exemple de données initiales (à remplacer par les données du store)
  const { basics, setBasics } = useCVStore();
@@ -80,6 +51,15 @@ export default function BasicsPage() {
     reader.readAsDataURL(file);
   };
 
+  const converDataToLocation = (data: Record<string, string>): Location => {
+    return {
+      address: data.address || "",
+      postalCode: data.postalCode || "",
+      city: data.city || "",
+      countryCode: data.countryCode || "",
+      region: data.region || "",
+    };
+  }
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-6">
       <div className="max-w-4xl mx-auto">
@@ -240,7 +220,7 @@ export default function BasicsPage() {
                   region: basics.location?.region || "",
                 }}
                 onSubmit={(data) => {
-                  setBasics({ ...basics, location: data as any });
+                  setBasics({ ...basics, location: converDataToLocation(data)  });
                   setIsEditing(false);
                 }}
                 onCancel={() => setIsEditing(false)}

@@ -2,17 +2,29 @@
 "use client";
 
 import { useState } from "react";
-import { useResumeStore } from "../lib/store";
+import { useCVStore } from "../lib/store";
 import FormSection from "../components/FormSection";
 import EditableList from "../components/EditableList";
 import TagInput from "../components/TagInput";
+import { Field, Project } from "../lib/definitions";
 
 export default function ProjectsPage() {
-  const { projects, addProject, updateProject, removeProject } = useResumeStore();
+  const { projects, addProject, updateProject, removeProject } = useCVStore();
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [highlights, setHighlights] = useState<string[]>([]);
 
-  const fields = [
+  const convertData = (data: Record<string, string>) => {
+    return {
+      name: data.name || "",
+      startDate: data.startDate || "",
+      endDate: data.endDate || "",
+      url: data.url || "",
+      description: data.description || "",
+      highlights: highlights,
+    } as Project;
+  }
+
+  const fields: Field[] = [
     { name: "name", label: "Nom du projet", type: "text", required: true },
     { name: "startDate", label: "Date de début", type: "date" },
     { name: "endDate", label: "Date de fin", type: "date" },
@@ -21,14 +33,10 @@ export default function ProjectsPage() {
   ];
 
   const handleSubmit = (data: Record<string, string>) => {
-    const projectData = {
-      ...data,
-      highlights,
-    };
     if (editingIndex !== null) {
-      updateProject(editingIndex, projectData as any);
+      updateProject(editingIndex, convertData(data));
     } else {
-      addProject(projectData as any);
+      addProject(convertData(data));
     }
     setEditingIndex(null);
     setHighlights([]);
@@ -56,22 +64,30 @@ export default function ProjectsPage() {
         )}
       />
       {editingIndex !== null && (
-        <div className="space-y-4">
+        <div className="mt-6 p-4 border rounded-lg space-y-4">
           <FormSection
             fields={fields}
-            initialData={projects[editingIndex] || {}}
+            initialData={{
+              name: projects[editingIndex]?.name || "",
+              startDate: projects[editingIndex]?.startDate || "",
+              endDate: projects[editingIndex]?.endDate || "",
+              url: projects[editingIndex]?.url || "",
+              description: projects[editingIndex]?.description || "",
+            }}
             onSubmit={handleSubmit}
             onCancel={() => {
               setEditingIndex(null);
               setHighlights([]);
             }}
           />
-          <TagInput
-            name="highlights"
-            label="Points forts"
-            value={highlights}
-            onChange={setHighlights}
-          />
+          <div className="mt-4">
+            <TagInput
+              label="Points forts"
+              tags={highlights}
+              onChange={setHighlights}
+              placeholder="Ajoutez des points forts..."
+            />
+          </div>
         </div>
       )}
     </div>

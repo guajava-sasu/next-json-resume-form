@@ -2,17 +2,30 @@
 "use client";
 
 import { useState } from "react";
-import { useResumeStore } from "@/lib/store";
-import FormSection from "@/components/FormSection";
-import EditableList from "@/components/EditableList";
-import TagInput from "@/components/TagInput";
+import { useCVStore } from "../lib/store";
+import FormSection from "../components/FormSection";
+import EditableList from "../components/EditableList";
+import TagInput from "../components/TagInput";
+import { Education, Field } from "../lib/definitions";
 
 export default function EducationPage() {
-  const { education, addEducation, updateEducation, removeEducation } = useResumeStore();
+  const { education, addEducation, updateEducation, removeEducation } = useCVStore();
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [courses, setCourses] = useState<string[]>([]);
 
-  const fields = [
+
+    const convertData = (data: Record<string, string>) => {
+    return {
+      institution: data.institution || "",
+      area: data.area || "",
+      studyType: data.studyType || "",
+      startDate: data.startDate || "",
+      endDate: data.endDate || "",
+      score: data.score || "",
+    } as Education;
+  }
+
+  const fields: Field[] = [
     { name: "institution", label: "Établissement", type: "text", required: true },
     { name: "area", label: "Domaine d'étude", type: "text", required: true },
     { name: "studyType", label: "Type de diplôme", type: "text", required: true },
@@ -22,14 +35,11 @@ export default function EducationPage() {
   ];
 
   const handleSubmit = (data: Record<string, string>) => {
-    const educationData = {
-      ...data,
-      courses,
-    };
+
     if (editingIndex !== null) {
-      updateEducation(editingIndex, educationData as any);
+      updateEducation(editingIndex, convertData(data));
     } else {
-      addEducation(educationData as any);
+      addEducation(convertData(data));
     }
     setEditingIndex(null);
     setCourses([]);
@@ -60,7 +70,16 @@ export default function EducationPage() {
         <div className="space-y-4">
           <FormSection
             fields={fields}
-            initialData={education[editingIndex] || {}}
+            initialData={
+               {
+                institution: education[editingIndex]?.institution || "",
+                area: education[editingIndex]?.area || "",
+                studyType: education[editingIndex]?.studyType || "",
+                startDate: education[editingIndex]?.startDate || "",
+                endDate: education[editingIndex]?.endDate || "",
+                score: education[editingIndex]?.score || "",
+
+               }}
             onSubmit={handleSubmit}
             onCancel={() => {
               setEditingIndex(null);
@@ -68,10 +87,10 @@ export default function EducationPage() {
             }}
           />
           <TagInput
-            name="courses"
-            label="Cours suivis"
-            value={courses}
+            label="Cours"
+            tags={courses}
             onChange={setCourses}
+            placeholder="Ajoutez des cours..."
           />
         </div>
       )}

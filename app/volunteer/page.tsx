@@ -2,15 +2,28 @@
 "use client";
 
 import { useState } from "react";
-import { useResumeStore } from "@/lib/store";
-import FormSection from "@/components/FormSection";
-import EditableList from "@/components/EditableList";
+import { useCVStore } from "../lib/store";
+import FormSection from "../components/FormSection";
+import EditableList from "../components/EditableList";
+import { Field, Volunteer } from "../lib/definitions";
 
 export default function VolunteerPage() {
-  const { volunteer, addVolunteer, updateVolunteer, removeVolunteer } = useResumeStore();
+  const { volunteer, addVolunteer, updateVolunteer, removeVolunteer } = useCVStore();
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
-  const fields = [
+  const convertData = (data: Record<string, string>) => {
+    return {
+      organization: data.organization || "",
+      position: data.position || "",
+      url: data.url || "",
+      startDate: data.startDate || "",
+      endDate: data.endDate || "",
+      summary: data.summary || "",
+      highlights: data.highlights ? data.highlights.split(",").map((h) => h.trim()) : [],
+    } as Volunteer;
+  }
+
+  const fields: Field[] = [
     { name: "organization", label: "Organisation", type: "text", required: true },
     { name: "position", label: "Poste", type: "text", required: true },
     { name: "url", label: "Site web", type: "url" },
@@ -20,14 +33,10 @@ export default function VolunteerPage() {
   ];
 
   const handleSubmit = (data: Record<string, string>) => {
-    const volunteerData = {
-      ...data,
-      highlights: data.highlights?.split(",").map((h) => h.trim()) || [],
-    };
     if (editingIndex !== null) {
-      updateVolunteer(editingIndex, volunteerData as any);
+      updateVolunteer(editingIndex, convertData(data));
     } else {
-      addVolunteer(volunteerData as any);
+      addVolunteer(convertData(data));
     }
     setEditingIndex(null);
   };
@@ -50,7 +59,15 @@ export default function VolunteerPage() {
       {editingIndex !== null && (
         <FormSection
           fields={fields}
-          initialData={volunteer[editingIndex] || {}}
+          initialData={{
+            organization: volunteer[editingIndex]?.organization || "",
+            position: volunteer[editingIndex]?.position || "",
+            url: volunteer[editingIndex]?.url || "",
+            startDate: volunteer[editingIndex]?.startDate || "",
+            endDate: volunteer[editingIndex]?.endDate || "",
+            summary: volunteer[editingIndex]?.summary || "",
+            highlights: volunteer[editingIndex]?.highlights?.join(", ") || "",
+          }}
           onSubmit={handleSubmit}
           onCancel={() => setEditingIndex(null)}
         />

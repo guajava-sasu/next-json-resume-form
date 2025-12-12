@@ -1,10 +1,10 @@
 // src/app/export/page.tsx
 "use client";
 
-import { useResumeStore } from "../lib/store";
+import { useCVStore } from "../lib/store";
 
 export default function ExportPage() {
-  const { resume } = useResumeStore();
+  const { resume } = useCVStore();
 
   const handleExport = () => {
     const json = JSON.stringify(resume, null, 2);
