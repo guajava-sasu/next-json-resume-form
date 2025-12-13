@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "lint:fix": "eslint --fix",
-    "export": "next output"
+    "lint:fix": "eslint --fix"
   },
   "dependencies": {
     "clsx": "^2.1.1",

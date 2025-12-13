@@ -100,6 +100,45 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        {/* SEO Content Section */}
+        <section className="max-w-6xl mx-auto mt-16 grid md:grid-cols-2 gap-8 px-4">
+          <article className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Qu&apos;est-ce que JSON Resume ?</h2>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              JSON Resume est un <strong>standard ouvert</strong> pour créer des CV au format JSON. 
+              Ce format structuré permet de stocker toutes vos informations professionnelles de manière 
+              universelle et réutilisable. Notre générateur JSON Resume vous permet de créer facilement 
+              votre CV au format JSON Resume schema officiel.
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              Compatible avec tous les outils de l&apos;écosystème JSON Resume, notre <em>JSON Resume builder</em> 
+              facilite la création, l&apos;édition et l&apos;export de votre CV professionnel.
+            </p>
+          </article>
+
+          <article className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Pourquoi utiliser JSON Resume ?</h2>
+            <ul className="space-y-3 text-gray-700">
+              <li className="flex items-start gap-2">
+                <span className="text-blue-600 font-bold">✓</span>
+                <span><strong>Standard universel :</strong> Format reconnu par la communauté tech mondiale</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-blue-600 font-bold">✓</span>
+                <span><strong>Réutilisable :</strong> Un seul CV JSON pour générer plusieurs designs</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-blue-600 font-bold">✓</span>
+                <span><strong>Versionnable :</strong> Suivez l&lsquo;évolution de votre carrière avec Git</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-blue-600 font-bold">✓</span>
+                <span><strong>Automatisable :</strong> Intégrez votre CV dans vos applications</span>
+              </li>
+            </ul>
+          </article>
+        </section>
       </main>
     </div>
   );

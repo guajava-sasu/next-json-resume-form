@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Favicon Preview</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .container {
+      background: white;
+      padding: 3rem;
+      border-radius: 1rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .preview-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .preview-item img {
+      display: block;
+    }
+    .size-label {
+      font-size: 0.875rem;
+      color: #666;
+      font-weight: 500;
+    }
+    h1 {
+      margin: 0 0 0.5rem 0;
+      color: #1a1a1a;
+    }
+    p {
+      margin: 0;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>JSON Resume CV - Favicon</h1>
+    <p>Aperçu du favicon aux différentes tailles</p>
+    
+    <div class="preview-grid">
+      <div class="preview-item">
+        <img src="favicon.svg" width="16" height="16" alt="16x16">
+        <span class="size-label">16×16</span>
+      </div>
+      <div class="preview-item">
+        <img src="favicon.svg" width="32" height="32" alt="32x32">
+        <span class="size-label">32×32</span>
+      </div>
+      <div class="preview-item">
+        <img src="favicon.svg" width="48" height="48" alt="48x48">
+        <span class="size-label">48×48</span>
+      </div>
+      <div class="preview-item">
+        <img src="favicon.svg" width="64" height="64" alt="64x64">
+        <span class="size-label">64×64</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Background gradient circle -->
+  <circle cx="32" cy="32" r="32" fill="url(#gradient)"/>
+  
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6366F1;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Document icon -->
+  <rect x="16" y="12" width="28" height="36" rx="2" fill="white" opacity="0.95"/>
+  
+  <!-- JSON brackets -->
+  <path d="M22 20 L20 20 L20 28 L22 28" stroke="#3B82F6" stroke-width="2" stroke-linecap="round"/>
+  <path d="M42 20 L44 20 L44 28 L42 28" stroke="#3B82F6" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Lines representing text/data -->
+  <line x1="24" y1="22" x2="40" y2="22" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+  <line x1="24" y1="26" x2="36" y2="26" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+  
+  <!-- Profile icon section -->
+  <circle cx="32" cy="36" r="3" fill="#3B82F6" opacity="0.8"/>
+  <path d="M26 43 Q26 40 32 40 Q38 40 38 43" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" opacity="0.8" fill="none"/>
+</svg>

@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# TODO: Remplacer avec le domaine final
+Sitemap: https://jsonresume.guajava.site/sitemap.xml
+
+# Priorités
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "JSON Resume Builder",
+  "short_name": "JSON Resume",
+  "description": "Créez votre CV professionnel au format JSON Resume",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3B82F6",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

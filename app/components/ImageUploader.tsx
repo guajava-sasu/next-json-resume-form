@@ -1,6 +1,7 @@
 // src/components/ImageUploader.tsx
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 interface ImageUploaderProps {
@@ -31,7 +32,8 @@ export default function ImageUploader({ name, label, value, onChange }: ImageUpl
         {label}
       </label>
       {preview && (
-        <img src={preview} alt="Preview" className="w-32 h-32 object-cover mb-2 rounded" />
+        // <img src={preview} alt="Preview" className="w-32 h-32 object-cover mb-2 rounded" />
+        <Image src={preview} alt="Preview" width={128} height={128} className="mb-2 rounded" />
       )}
       <input
         id={name}
