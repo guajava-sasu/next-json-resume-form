@@ -1,0 +1,72 @@
+name: Deploy cv-solide sur Hostinger
+
+on:
+  push:
+    branches:
+      - main  # Branche principale du projet
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Vérification du code source
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0  # Option pour obtenir toute l'historique des commits
+
+    # Configuration de Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '22'  # Version de Node.js
+
+    # Installation des dépendances
+    - name: Installation des dépendances
+      run: |
+        echo "Installing dependencies..."
+        npm install
+      env:
+        NODE_ENV: development  # Définir l'environnement de développement
+
+    # Construction du projet Next.js
+    - name: Build Next.js project
+      run: |
+        echo "Building the project..."
+        npm run build
+
+    # Installation de lftp pour le déploiement FTP
+    - name: Installation de lftp pour le déploiement FTP
+      run: |
+        echo "Installing lftp..."
+        sudo apt-get update
+        sudo apt-get install -y lftp
+
+    # Rendre le script deploy.sh exécutable
+    - name: Rendre le script deploy.sh exécutable
+      run: |
+        echo "Making deploy.sh executable..."
+        chmod +x deploy.sh
+
+    # Déploiement sur Hostinger via FTP
+    - name: Déploiement sur Hostinger via FTP
+      run: |
+        echo "Deploying to Hostinger..."
+        bash deploy.sh
+      env:
+        HOSTINGER_FTP_SERVER: ${{ secrets.HOSTINGER_FTP_SERVER }}
+        HOSTINGER_FTP_USERNAME: ${{ secrets.HOSTINGER_FTP_USERNAME }}
+        HOSTINGER_FTP_PASSWORD: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
+
+    # Vérification finale
+    - name: Vérification du déploiement
+      run: |
+        echo "Vérification du déploiement..."
+        HTTP_STATUS=$(curl -o /dev/null -s -w "%{http_code}\n" https://cv.guajava.site/ )
+        if [ "$HTTP_STATUS" -eq 200 ]; then
+          echo "Site is up and running."
+        else
+          echo "Site is not available. HTTP status: $HTTP_STATUS"
+          exit 1
+        fi

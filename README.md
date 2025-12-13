@@ -146,6 +146,10 @@ Les contributions sont les bienvenues ! N'hésitez pas à :
 
 Ce projet est sous licence MIT.
 
+## 💻 Author
+
+Nicolas RANO for Guajava SASU
+
 ## 🔗 Ressources
 
 - [Documentation Next.js](https://nextjs.org/docs)
