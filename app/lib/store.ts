@@ -1,5 +1,6 @@
 // src/lib/store.ts
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 import type { Resume, Work, Volunteer, Education, Award, Certificate, Publication, Skill, Language, Interest, Reference, Project } from './types';
 
 interface Location {
@@ -114,15 +115,17 @@ const initialResume: Resume = {
 };
 
 
-export const useCVStore = create<CVState>((set) => ({
-  resume: initialResume,
-  basics: defaultBasics,
-  work: [],
-  setBasics: (basics) => set({ basics }),
-  setWork: (work: Work[]) => set((state) => ({ resume: { ...state.resume, work } })),
-  addWork: (work: Work) => set((state) => ({ resume: { ...state.resume, work: [...state.resume.work, work] } })),
-  updateWork: (index: number, work: Work) => set((state) => ({ resume: { ...state.resume, work: state.resume.work.map((w, i) => i === index ? work : w) } })),
-  removeWork: (index: number) => set((state) => ({ resume: { ...state.resume, work: state.resume.work.filter((_, i) => i !== index) } })),
+export const useCVStore = create<CVState>()(
+  persist(
+    (set) => ({
+      resume: initialResume,
+      basics: defaultBasics,
+      work: [],
+      setBasics: (basics) => set({ basics }),
+      setWork: (work: Work[]) => set((state) => ({ resume: { ...state.resume, work } })),
+      addWork: (work: Work) => set((state) => ({ resume: { ...state.resume, work: [...state.resume.work, work] } })),
+      updateWork: (index: number, work: Work) => set((state) => ({ resume: { ...state.resume, work: state.resume.work.map((w, i) => i === index ? work : w) } })),
+      removeWork: (index: number) => set((state) => ({ resume: { ...state.resume, work: state.resume.work.filter((_, i) => i !== index) } })),
   
   volunteer: [],
   addVolunteer: (volunteer: Volunteer) => set((state) => ({ resume: { ...state.resume, volunteer: [...state.resume.volunteer, volunteer] } })),
@@ -173,5 +176,11 @@ export const useCVStore = create<CVState>((set) => ({
   addProject: (project: Project) => set((state) => ({ resume: { ...state.resume, projects: [...state.resume.projects, project] } })),
   updateProject: (index: number, project: Project) => set((state) => ({ resume: { ...state.resume, projects: state.resume.projects.map((p, i) => i === index ? project : p) } })),
   removeProject: (index: number) => set((state) => ({ resume: { ...state.resume, projects: state.resume.projects.filter((_, i) => i !== index) } })),
-}));
+    }),
+    {
+      name: 'cv-storage',
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+);
 
