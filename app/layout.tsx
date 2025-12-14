@@ -103,7 +103,9 @@ export default function RootLayout({
                 className="hover:text-white transition-colors"
               >
                 Développeur
-              </a>  
+              </a>                              
+              <span>•</span>
+              <span className="text-gray-500">v0.1.0</span>
             </div>
           </div>
         </footer>

@@ -28,7 +28,7 @@ jobs:
         echo "Installing dependencies..."
         npm install
       env:
-        NODE_ENV: development  # Définir l'environnement de développement
+        NODE_ENV: production  # Définir l'environnement de développement
 
     # Construction du projet Next.js
     - name: Build Next.js project
@@ -63,7 +63,7 @@ jobs:
     - name: Vérification du déploiement
       run: |
         echo "Vérification du déploiement..."
-        HTTP_STATUS=$(curl -o /dev/null -s -w "%{http_code}\n" https://cv.guajava.site/ )
+        HTTP_STATUS=$(curl -o /dev/null -s -w "%{http_code}\n" https://jsonresume.guajava.site/ )
         if [ "$HTTP_STATUS" -eq 200 ]; then
           echo "Site is up and running."
         else
