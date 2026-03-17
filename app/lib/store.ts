@@ -23,6 +23,8 @@ interface Basics {
 }
 
 interface CVState {
+  sharedBackendData: unknown;
+  setSharedBackendData: (data: unknown) => void;
   resume: Resume;
   basics: Basics;
   setBasics: (basics: Basics) => void;
@@ -118,6 +120,8 @@ const initialResume: Resume = {
 export const useCVStore = create<CVState>()(
   persist(
     (set) => ({
+      sharedBackendData: null,
+      setSharedBackendData: (data) => set({ sharedBackendData: data }),
       resume: initialResume,
       basics: defaultBasics,
       work: [],
@@ -126,56 +130,56 @@ export const useCVStore = create<CVState>()(
       addWork: (work: Work) => set((state) => ({ resume: { ...state.resume, work: [...state.resume.work, work] } })),
       updateWork: (index: number, work: Work) => set((state) => ({ resume: { ...state.resume, work: state.resume.work.map((w, i) => i === index ? work : w) } })),
       removeWork: (index: number) => set((state) => ({ resume: { ...state.resume, work: state.resume.work.filter((_, i) => i !== index) } })),
-  
-  volunteer: [],
-  addVolunteer: (volunteer: Volunteer) => set((state) => ({ resume: { ...state.resume, volunteer: [...state.resume.volunteer, volunteer] } })),
-  updateVolunteer: (index: number, volunteer: Volunteer) => set((state) => ({ resume: { ...state.resume, volunteer: state.resume.volunteer.map((v, i) => i === index ? volunteer : v) } })),
-  removeVolunteer: (index: number) => set((state) => ({ resume: { ...state.resume, volunteer: state.resume.volunteer.filter((_, i) => i !== index) } })),
-  
-  education: [],
-  addEducation: (education: Education) => set((state) => ({ resume: { ...state.resume, education: [...state.resume.education, education] } })),
-  updateEducation: (index: number, education: Education) => set((state) => ({ resume: { ...state.resume, education: state.resume.education.map((e, i) => i === index ? education : e) } })),
-  removeEducation: (index: number) => set((state) => ({ resume: { ...state.resume, education: state.resume.education.filter((_, i) => i !== index) } })),
-  
-  awards: [],
-  addAward: (award: Award) => set((state) => ({ resume: { ...state.resume, awards: [...state.resume.awards, award] } })),
-  updateAward: (index: number, award: Award) => set((state) => ({ resume: { ...state.resume, awards: state.resume.awards.map((a, i) => i === index ? award : a) } })),
-  removeAward: (index: number) => set((state) => ({ resume: { ...state.resume, awards: state.resume.awards.filter((_, i) => i !== index) } })),
-  
-  certificates: [],
-  addCertificate: (certificate: Certificate) => set((state) => ({ resume: { ...state.resume, certificates: [...state.resume.certificates, certificate] } })),
-  updateCertificate: (index: number, certificate: Certificate) => set((state) => ({ resume: { ...state.resume, certificates: state.resume.certificates.map((c, i) => i === index ? certificate : c) } })),
-  removeCertificate: (index: number) => set((state) => ({ resume: { ...state.resume, certificates: state.resume.certificates.filter((_, i) => i !== index) } })),
-  
-  publications: [],
-  addPublication: (publication: Publication) => set((state) => ({ resume: { ...state.resume, publications: [...state.resume.publications, publication] } })),
-  updatePublication: (index: number, publication: Publication) => set((state) => ({ resume: { ...state.resume, publications: state.resume.publications.map((p, i) => i === index ? publication : p) } })),
-  removePublication: (index: number) => set((state) => ({ resume: { ...state.resume, publications: state.resume.publications.filter((_, i) => i !== index) } })),
-  
-  skills: [],
-  addSkill: (skill: Skill) => set((state) => ({ resume: { ...state.resume, skills: [...state.resume.skills, skill] } })),
-  updateSkill: (index: number, skill: Skill) => set((state) => ({ resume: { ...state.resume, skills: state.resume.skills.map((s, i) => i === index ? skill : s) } })),
-  removeSkill: (index: number) => set((state) => ({ resume: { ...state.resume, skills: state.resume.skills.filter((_, i) => i !== index) } })),
-  
-  languages: [],
-  addLanguage: (language: Language) => set((state) => ({ resume: { ...state.resume, languages: [...state.resume.languages, language] } })),
-  updateLanguage: (index: number, language: Language) => set((state) => ({ resume: { ...state.resume, languages: state.resume.languages.map((l, i) => i === index ? language : l) } })),
-  removeLanguage: (index: number) => set((state) => ({ resume: { ...state.resume, languages: state.resume.languages.filter((_, i) => i !== index) } })),
-  
-  interests: [],
-  addInterest: (interest: Interest) => set((state) => ({ resume: { ...state.resume, interests: [...state.resume.interests, interest] } })),
-  updateInterest: (index: number, interest: Interest) => set((state) => ({ resume: { ...state.resume, interests: state.resume.interests.map((i, idx) => idx === index ? interest : i) } })),
-  removeInterest: (index: number) => set((state) => ({ resume: { ...state.resume, interests: state.resume.interests.filter((_, i) => i !== index) } })),
-  
-  references: [],
-  addReference: (reference: Reference) => set((state) => ({ resume: { ...state.resume, references: [...state.resume.references, reference] } })),
-  updateReference: (index: number, reference: Reference) => set((state) => ({ resume: { ...state.resume, references: state.resume.references.map((r, i) => i === index ? reference : r) } })),
-  removeReference: (index: number) => set((state) => ({ resume: { ...state.resume, references: state.resume.references.filter((_, i) => i !== index) } })),
-  
-  projects: [],
-  addProject: (project: Project) => set((state) => ({ resume: { ...state.resume, projects: [...state.resume.projects, project] } })),
-  updateProject: (index: number, project: Project) => set((state) => ({ resume: { ...state.resume, projects: state.resume.projects.map((p, i) => i === index ? project : p) } })),
-  removeProject: (index: number) => set((state) => ({ resume: { ...state.resume, projects: state.resume.projects.filter((_, i) => i !== index) } })),
+
+      volunteer: [],
+      addVolunteer: (volunteer: Volunteer) => set((state) => ({ resume: { ...state.resume, volunteer: [...state.resume.volunteer, volunteer] } })),
+      updateVolunteer: (index: number, volunteer: Volunteer) => set((state) => ({ resume: { ...state.resume, volunteer: state.resume.volunteer.map((v, i) => i === index ? volunteer : v) } })),
+      removeVolunteer: (index: number) => set((state) => ({ resume: { ...state.resume, volunteer: state.resume.volunteer.filter((_, i) => i !== index) } })),
+
+      education: [],
+      addEducation: (education: Education) => set((state) => ({ resume: { ...state.resume, education: [...state.resume.education, education] } })),
+      updateEducation: (index: number, education: Education) => set((state) => ({ resume: { ...state.resume, education: state.resume.education.map((e, i) => i === index ? education : e) } })),
+      removeEducation: (index: number) => set((state) => ({ resume: { ...state.resume, education: state.resume.education.filter((_, i) => i !== index) } })),
+
+      awards: [],
+      addAward: (award: Award) => set((state) => ({ resume: { ...state.resume, awards: [...state.resume.awards, award] } })),
+      updateAward: (index: number, award: Award) => set((state) => ({ resume: { ...state.resume, awards: state.resume.awards.map((a, i) => i === index ? award : a) } })),
+      removeAward: (index: number) => set((state) => ({ resume: { ...state.resume, awards: state.resume.awards.filter((_, i) => i !== index) } })),
+
+      certificates: [],
+      addCertificate: (certificate: Certificate) => set((state) => ({ resume: { ...state.resume, certificates: [...state.resume.certificates, certificate] } })),
+      updateCertificate: (index: number, certificate: Certificate) => set((state) => ({ resume: { ...state.resume, certificates: state.resume.certificates.map((c, i) => i === index ? certificate : c) } })),
+      removeCertificate: (index: number) => set((state) => ({ resume: { ...state.resume, certificates: state.resume.certificates.filter((_, i) => i !== index) } })),
+
+      publications: [],
+      addPublication: (publication: Publication) => set((state) => ({ resume: { ...state.resume, publications: [...state.resume.publications, publication] } })),
+      updatePublication: (index: number, publication: Publication) => set((state) => ({ resume: { ...state.resume, publications: state.resume.publications.map((p, i) => i === index ? publication : p) } })),
+      removePublication: (index: number) => set((state) => ({ resume: { ...state.resume, publications: state.resume.publications.filter((_, i) => i !== index) } })),
+
+      skills: [],
+      addSkill: (skill: Skill) => set((state) => ({ resume: { ...state.resume, skills: [...state.resume.skills, skill] } })),
+      updateSkill: (index: number, skill: Skill) => set((state) => ({ resume: { ...state.resume, skills: state.resume.skills.map((s, i) => i === index ? skill : s) } })),
+      removeSkill: (index: number) => set((state) => ({ resume: { ...state.resume, skills: state.resume.skills.filter((_, i) => i !== index) } })),
+
+      languages: [],
+      addLanguage: (language: Language) => set((state) => ({ resume: { ...state.resume, languages: [...state.resume.languages, language] } })),
+      updateLanguage: (index: number, language: Language) => set((state) => ({ resume: { ...state.resume, languages: state.resume.languages.map((l, i) => i === index ? language : l) } })),
+      removeLanguage: (index: number) => set((state) => ({ resume: { ...state.resume, languages: state.resume.languages.filter((_, i) => i !== index) } })),
+
+      interests: [],
+      addInterest: (interest: Interest) => set((state) => ({ resume: { ...state.resume, interests: [...state.resume.interests, interest] } })),
+      updateInterest: (index: number, interest: Interest) => set((state) => ({ resume: { ...state.resume, interests: state.resume.interests.map((i, idx) => idx === index ? interest : i) } })),
+      removeInterest: (index: number) => set((state) => ({ resume: { ...state.resume, interests: state.resume.interests.filter((_, i) => i !== index) } })),
+
+      references: [],
+      addReference: (reference: Reference) => set((state) => ({ resume: { ...state.resume, references: [...state.resume.references, reference] } })),
+      updateReference: (index: number, reference: Reference) => set((state) => ({ resume: { ...state.resume, references: state.resume.references.map((r, i) => i === index ? reference : r) } })),
+      removeReference: (index: number) => set((state) => ({ resume: { ...state.resume, references: state.resume.references.filter((_, i) => i !== index) } })),
+
+      projects: [],
+      addProject: (project: Project) => set((state) => ({ resume: { ...state.resume, projects: [...state.resume.projects, project] } })),
+      updateProject: (index: number, project: Project) => set((state) => ({ resume: { ...state.resume, projects: state.resume.projects.map((p, i) => i === index ? project : p) } })),
+      removeProject: (index: number) => set((state) => ({ resume: { ...state.resume, projects: state.resume.projects.filter((_, i) => i !== index) } })),
     }),
     {
       name: 'cv-storage',
