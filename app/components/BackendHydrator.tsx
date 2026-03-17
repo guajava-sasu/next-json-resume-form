@@ -3,19 +3,21 @@
 import { useEffect, useRef } from "react";
 import { apiGet } from "../lib/backend-api";
 import { useCVStore } from "../lib/store";
+import { useKeycloak } from "./KeycloakProvider";
 
 export default function BackendHydrator() {
   const { sharedBackendData, hydrateFromBackendData } = useCVStore();
+  const { token, authenticated } = useKeycloak();
   const hasHydrated = useRef(false);
 
   useEffect(() => {
-    if (hasHydrated.current) {
+    if (hasHydrated.current || !authenticated || !token) {
       return;
     }
 
     const hydrate = async () => {
       try {
-        const result = await apiGet<unknown>("/jsonresume");
+        const result = await apiGet<unknown>("/jsonresume", token);
         const payload = Array.isArray(result) ? result[0] : result;
         if (payload) {
           hydrateFromBackendData(payload);
@@ -33,7 +35,7 @@ export default function BackendHydrator() {
     }
 
     hydrate();
-  }, [sharedBackendData, hydrateFromBackendData]);
+  }, [sharedBackendData, hydrateFromBackendData, authenticated, token]);
 
   return null;
 }

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { apiGet } from "../lib/backend-api";
 import { useCVStore } from "../lib/store";
+import { useKeycloak } from "./KeycloakProvider";
 
 const navItems = [
   {
@@ -54,19 +55,22 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [cvList, setCvList] = useState<Array<Record<string, unknown>>>([]);
   const { hydrateFromBackendData, sharedBackendData } = useCVStore();
+  const { token, userName, authenticated, login, logout } = useKeycloak();
 
   const getCvId = (cv: Record<string, unknown>) =>
     String(cv.Id ?? cv.id ?? cv._id ?? "");
 
   useEffect(() => {
-    apiGet<unknown>("/jsonresume/ids")
+    console.log("Token dans Navbar:", token);
+    if (!token) return;
+    apiGet<unknown>("/jsonresume/ids", token)
       .then((result) => {
         if (Array.isArray(result)) {
           setCvList(result as Array<Record<string, unknown>>);
         }
       })
       .catch(console.error);
-  }, []);
+  }, [token]);
 
   const currentId = sharedBackendData
     ? getCvId(sharedBackendData as Record<string, unknown>)
@@ -79,7 +83,7 @@ export default function Navbar() {
     }
 
     try {
-      const fullCv = await apiGet<unknown>(`/jsonresume/${selectedId}`);
+      const fullCv = await apiGet<unknown>(`/jsonresume/${selectedId}`, token);
       hydrateFromBackendData(fullCv);
     } catch (error) {
       console.error("Erreur chargement du CV sélectionné:", error);
@@ -141,7 +145,7 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex space-x-1">
+          <div className="hidden lg:flex items-center space-x-1">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -168,6 +172,42 @@ export default function Navbar() {
                 <span>{item.label}</span>
               </Link>
             ))}
+
+            <div className="flex items-center space-x-2 ml-4 pl-4 border-l border-white/20">
+              {authenticated ? (
+                <>
+                  {userName && (
+                    <span className="text-white/80 text-sm">{userName}</span>
+                  )}
+                  <button
+                    onClick={logout}
+                    className="p-2 rounded-lg text-white/80 hover:bg-white/10 hover:text-white transition-colors"
+                    title="Déconnexion"
+                  >
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                      />
+                    </svg>
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={login}
+                  className="px-4 py-2 rounded-lg text-sm font-medium text-white border border-white/30 hover:bg-white/10 transition-colors"
+                >
+                  Connexion
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Mobile menu button */}
@@ -232,6 +272,31 @@ export default function Navbar() {
                 <span>{item.label}</span>
               </Link>
             ))}
+
+            <div className="pt-2 border-t border-white/20 mt-2">
+              {authenticated ? (
+                <button
+                  onClick={() => {
+                    setIsOpen(false);
+                    logout();
+                  }}
+                  className="w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-lg text-sm font-medium text-white hover:bg-white/10 transition-all"
+                >
+                  <span>{userName ? `${userName} -` : ""}</span>
+                  <span>Déconnexion</span>
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    setIsOpen(false);
+                    login();
+                  }}
+                  className="w-full flex items-center justify-center px-4 py-3 rounded-lg text-sm font-medium text-white border border-white/30 hover:bg-white/10 transition-all"
+                >
+                  Connexion
+                </button>
+              )}
+            </div>
           </div>
         </div>
       )}

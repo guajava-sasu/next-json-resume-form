@@ -74,6 +74,7 @@ interface CVState {
   addProject: (project: Project) => void;
   updateProject: (index: number, project: Project) => void;
   removeProject: (index: number) => void;
+  resetStore: () => void;
 }
 
 const defaultBasics: Basics = {
@@ -196,7 +197,7 @@ export const useCVStore = create<CVState>()(
             projects: nextProjects,
             resume: {
               ...state.resume,
-              basics: nextBasics,
+              basics: { ...state.resume.basics, ...nextBasics } as typeof state.resume.basics,
               work: nextWork,
               volunteer: nextVolunteer,
               education: nextEducation,
@@ -269,6 +270,25 @@ export const useCVStore = create<CVState>()(
       addProject: (project: Project) => set((state) => ({ resume: { ...state.resume, projects: [...state.resume.projects, project] } })),
       updateProject: (index: number, project: Project) => set((state) => ({ resume: { ...state.resume, projects: state.resume.projects.map((p, i) => i === index ? project : p) } })),
       removeProject: (index: number) => set((state) => ({ resume: { ...state.resume, projects: state.resume.projects.filter((_, i) => i !== index) } })),
+      resetStore: () => {
+        set({
+          sharedBackendData: null,
+          resume: initialResume,
+          basics: defaultBasics,
+          work: [],
+          volunteer: [],
+          education: [],
+          awards: [],
+          certificates: [],
+          publications: [],
+          skills: [],
+          languages: [],
+          interests: [],
+          references: [],
+          projects: [],
+        });
+        useCVStore.persist.clearStorage();
+      },
     }),
     {
       name: 'cv-storage',

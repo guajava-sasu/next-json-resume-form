@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import BackendHydrator from "./components/BackendHydrator";
+import KeycloakProvider from "./components/KeycloakProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -82,9 +83,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <BackendHydrator />
-        <Navbar />
-        <main>{children}</main>
+        <KeycloakProvider>
+          <BackendHydrator />
+          <Navbar />
+          <main>{children}</main>
         <footer className="bg-gradient-to-r from-slate-900 to-gray-900 text-white py-8 mt-16">
           <div className="container mx-auto px-4 text-center">
             <p className="text-gray-300 mb-2">
@@ -141,6 +143,7 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
+        </KeycloakProvider>
       </body>
     </html>
   );
