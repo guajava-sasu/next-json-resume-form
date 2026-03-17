@@ -25,6 +25,7 @@ interface Basics {
 interface CVState {
   sharedBackendData: unknown;
   setSharedBackendData: (data: unknown) => void;
+  hydrateFromBackendData: (data: unknown) => void;
   resume: Resume;
   basics: Basics;
   setBasics: (basics: Basics) => void;
@@ -122,6 +123,94 @@ export const useCVStore = create<CVState>()(
     (set) => ({
       sharedBackendData: null,
       setSharedBackendData: (data) => set({ sharedBackendData: data }),
+      hydrateFromBackendData: (data) =>
+        set((state) => {
+          const source = (data ?? {}) as Record<string, unknown>;
+          const payload = (source.resume as Record<string, unknown> | undefined) ?? source;
+          const payloadBasics =
+            (payload.basics as Record<string, unknown> | undefined) ??
+            (payload.profile as Record<string, unknown> | undefined) ??
+            {};
+          const payloadLocation =
+            (payloadBasics.location as Record<string, unknown> | undefined) ?? {};
+
+          const nextBasics: Basics = {
+            ...state.basics,
+            name: String(payloadBasics.name ?? payloadBasics.fullName ?? state.basics.name ?? ""),
+            label: String(payloadBasics.label ?? state.basics.label ?? ""),
+            image: String(payloadBasics.image ?? state.basics.image ?? ""),
+            email: String(payloadBasics.email ?? payloadBasics.mail ?? state.basics.email ?? ""),
+            phone: String(payloadBasics.phone ?? payloadBasics.phoneNumber ?? state.basics.phone ?? ""),
+            url: String(payloadBasics.url ?? state.basics.url ?? ""),
+            summary: String(payloadBasics.summary ?? state.basics.summary ?? ""),
+            location: {
+              address: String(payloadLocation.address ?? state.basics.location.address ?? ""),
+              postalCode: String(payloadLocation.postalCode ?? state.basics.location.postalCode ?? ""),
+              city: String(payloadLocation.city ?? state.basics.location.city ?? ""),
+              countryCode: String(payloadLocation.countryCode ?? state.basics.location.countryCode ?? ""),
+              region: String(payloadLocation.region ?? state.basics.location.region ?? ""),
+            },
+          };
+
+          const nextWork = Array.isArray(payload.work) ? (payload.work as Work[]) : state.work;
+          const nextVolunteer = Array.isArray(payload.volunteer)
+            ? (payload.volunteer as Volunteer[])
+            : state.volunteer;
+          const nextEducation = Array.isArray(payload.education)
+            ? (payload.education as Education[])
+            : state.education;
+          const nextAwards = Array.isArray(payload.awards) ? (payload.awards as Award[]) : state.awards;
+          const nextCertificates = Array.isArray(payload.certificates)
+            ? (payload.certificates as Certificate[])
+            : state.certificates;
+          const nextPublications = Array.isArray(payload.publications)
+            ? (payload.publications as Publication[])
+            : state.publications;
+          const nextSkills = Array.isArray(payload.skills) ? (payload.skills as Skill[]) : state.skills;
+          const nextLanguages = Array.isArray(payload.languages)
+            ? (payload.languages as Language[])
+            : state.languages;
+          const nextInterests = Array.isArray(payload.interests)
+            ? (payload.interests as Interest[])
+            : state.interests;
+          const nextReferences = Array.isArray(payload.references)
+            ? (payload.references as Reference[])
+            : state.references;
+          const nextProjects = Array.isArray(payload.projects)
+            ? (payload.projects as Project[])
+            : state.projects;
+
+          return {
+            sharedBackendData: data,
+            basics: nextBasics,
+            work: nextWork,
+            volunteer: nextVolunteer,
+            education: nextEducation,
+            awards: nextAwards,
+            certificates: nextCertificates,
+            publications: nextPublications,
+            skills: nextSkills,
+            languages: nextLanguages,
+            interests: nextInterests,
+            references: nextReferences,
+            projects: nextProjects,
+            resume: {
+              ...state.resume,
+              basics: nextBasics,
+              work: nextWork,
+              volunteer: nextVolunteer,
+              education: nextEducation,
+              awards: nextAwards,
+              certificates: nextCertificates,
+              publications: nextPublications,
+              skills: nextSkills,
+              languages: nextLanguages,
+              interests: nextInterests,
+              references: nextReferences,
+              projects: nextProjects,
+            },
+          };
+        }),
       resume: initialResume,
       basics: defaultBasics,
       work: [],

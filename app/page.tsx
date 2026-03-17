@@ -1,26 +1,9 @@
 "use client";
 import Link from "next/link";
-import { useEffect } from "react";
-import { apiGet, apiPost } from "./lib/backend-api";
 import { useCVStore } from "./lib/store";
 
 export default function Home() {
-  const { sharedBackendData, setSharedBackendData } = useCVStore();
-
-  useEffect(() => {
-    const run = async () => {
-      const result: any = await apiGet("/cv");
-      setSharedBackendData(result[0]);
-      console.log(result);
-    };
-    run();
-  }, [setSharedBackendData]);
-
-  const save = async () => {
-    await apiPost("/api/education", { institution: "EPITECH" });
-  };
-
-  // return <button onClick={save}>Envoyer</button>;  }
+  const { sharedBackendData } = useCVStore();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
@@ -31,7 +14,7 @@ export default function Home() {
             <span className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
               ✨ SaaS de Création de CV
             </span>
-            <pre>{JSON.stringify(sharedBackendData._id, null, 2)}</pre>
+            {/* <pre>{JSON.stringify(sharedBackendData._id, null, 2)}</pre> */}
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">

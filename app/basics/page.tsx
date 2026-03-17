@@ -34,8 +34,8 @@ console.log(
 
     setBasics({
       ...basics,
-      name: String(backendBasics.name ?? basics.name ?? ""),
-      label: String(backendBasics.label ?? basics.label ?? ""),
+      name: String(backendBasics.nom ?? basics.name ?? ""),
+      label: String(backendBasics.titre ?? basics.label ?? ""),
       image: String(backendBasics.image ?? basics.image ?? ""),
       email: String(backendBasics.email ?? basics.email ?? ""),
       phone: String(backendBasics.phone ?? basics.phone ?? ""),
